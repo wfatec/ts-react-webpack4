@@ -25,7 +25,11 @@ const devPlugins = [
     new HtmlWebpackPlugin({
         filename: 'index.html',
         template: 'build/tpl/index.html',
-        inject: true
+        inject: true, //js资源会放在body的底部，默认为true
+        hash:true,//防止缓存
+        minify:{
+            removeAttributeQuotes:true//压缩 去掉引号
+        }
     })
 ]
 
@@ -47,7 +51,8 @@ const prodPlugins = [
     }),
     new ExtractTextPlugin({
         allChunks: true,
-        filename: assetsPath('css/[name].[contenthash].css')
+        //filename: assetsPath('css/[name].[contenthash].css') 有bug！！！
+        filename: assetsPath('css/[name].[md5:contenthash:hex:20].css')
     })
 ]
 
